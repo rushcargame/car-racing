@@ -4,25 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rush Car Racing</title>
-<style>
-body{
-    margin:0;
-    background:#111;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    font-family:Arial,sans-serif;
-}
-h1{
-    font-size:60px;
-}
-</style>
+
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h1>🚗 Rush Car Racing</h1>
+<div id="menu">
+    <h1>🚗 Rush Car Racing</h1>
+    <button id="startBtn">START GAME</button>
+</div>
+
+<div id="hud">
+    Score : <span id="score">0</span>
+</div>
+
+<canvas id="gameCanvas"></canvas>
+
+<script src="script.js"></script>
 
 </body>
 </html>
