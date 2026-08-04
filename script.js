@@ -83,3 +83,48 @@ function drawPlayer(){
     ctx.fillRect(player.x+6,player.y+8,12,18);
     ctx.fillRect(player.x+32,player.y+8,12,18);
 }
+const enemies = [];
+
+function createEnemy() {
+
+    const lane = Math.floor(Math.random() * 3);
+
+    enemies.push({
+
+        x: canvas.width / 2 - ROAD_WIDTH / 2 + lane * LANE_WIDTH + 20,
+
+        y: -120,
+
+        width: 50,
+
+        height: 90,
+
+        color: "blue"
+
+    });
+
+}
+
+setInterval(() => {
+
+    if (gameRunning) {
+
+        createEnemy();
+
+    }
+
+}, 1200);
+
+function drawEnemies() {
+
+    enemies.forEach(enemy => {
+
+        enemy.y += speed;
+
+        ctx.fillStyle = enemy.color;
+
+        ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+
+    });
+
+}
