@@ -4,99 +4,82 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const roadWidth = 320;
-const laneWidth = roadWidth / 3;
-
-let score = 0;
 let gameRunning = false;
+let score = 0;
+let roadOffset = 0;
+let speed = 6;
+
+const ROAD_WIDTH = 320;
+const LANE_WIDTH = ROAD_WIDTH / 3;
 
 const player = {
-    x: canvas.width / 2 - 25,
-    y: canvas.height - 140,
     width: 50,
     height: 90,
-    speed: 8
+    x: canvas.width / 2 - 25,
+    y: canvas.height - 130,
+    speed: 8,
+    color: "#ff2d2d"
 };
 
-let keys = {};
+const keys = {};
 
-document.addEventListener("keydown", e => {
-    keys[e.key] = true;
+document.addEventListener("keydown",(e)=>{
+    keys[e.key]=true;
 });
 
-document.addEventListener("keyup", e => {
-    keys[e.key] = false;
+document.addEventListener("keyup",(e)=>{
+    keys[e.key]=false;
 });
 
-document.getElementById("startBtn").onclick = function () {
-    document.getElementById("menu").style.display = "none";
-    gameRunning = true;
-    animate();
+const startBtn=document.getElementById("startBtn");
+
+startBtn.onclick=()=>{
+    document.getElementById("menu").style.display="none";
+    gameRunning=true;
+    requestAnimationFrame(gameLoop);
 };
+function drawRoad(){
 
-function drawRoad() {
-    const left = canvas.width / 2 - roadWidth / 2;
+    const left = canvas.width/2-ROAD_WIDTH/2;
 
-    ctx.fillStyle = "#444";
-    ctx.fillRect(left, 0, roadWidth, canvas.height);
+    ctx.fillStyle="#3d3d3d";
+    ctx.fillRect(left,0,ROAD_WIDTH,canvas.height);
 
-    ctx.strokeStyle = "white";
-    ctx.lineWidth = 5;
+    ctx.strokeStyle="white";
+    ctx.lineWidth=4;
 
-    for (let i = 0; i < canvas.height; i += 40) {
+    roadOffset+=speed;
+
+    if(roadOffset>=40){
+        roadOffset=0;
+    }
+
+    for(let y=-40;y<canvas.height+40;y+=40){
+
         ctx.beginPath();
-        ctx.moveTo(left + laneWidth, i);
-        ctx.lineTo(left + laneWidth, i + 20);
+        ctx.moveTo(left+LANE_WIDTH,y+roadOffset);
+        ctx.lineTo(left+LANE_WIDTH,y+20+roadOffset);
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.moveTo(left + laneWidth * 2, i);
-        ctx.lineTo(left + laneWidth * 2, i + 20);
+        ctx.moveTo(left+LANE_WIDTH*2,y+roadOffset);
+        ctx.lineTo(left+LANE_WIDTH*2,y+20+roadOffset);
         ctx.stroke();
     }
 }
+function drawPlayer(){
 
-function drawCar() {
-    ctx.fillStyle = "red";
-    ctx.fillRect(player.x, player.y, player.width, player.height);
+    ctx.fillStyle=player.color;
 
-    ctx.fillStyle = "black";
-    ctx.fillRect(player.x + 8, player.y + 10, 12, 20);
-    ctx.fillRect(player.x + 30, player.y + 10, 12, 20);
+    ctx.fillRect(
+        player.x,
+        player.y,
+        player.width,
+        player.height
+    );
+
+    ctx.fillStyle="black";
+
+    ctx.fillRect(player.x+6,player.y+8,12,18);
+    ctx.fillRect(player.x+32,player.y+8,12,18);
 }
-
-function update() {
-
-    const leftLimit = canvas.width / 2 - roadWidth / 2;
-    const rightLimit = canvas.width / 2 + roadWidth / 2 - player.width;
-
-    if (keys["ArrowLeft"] && player.x > leftLimit)
-        player.x -= player.speed;
-
-    if (keys["ArrowRight"] && player.x < rightLimit)
-        player.x += player.speed;
-
-    score++;
-
-    document.getElementById("score").innerText = score;
-}
-
-function animate() {
-
-    if (!gameRunning) return;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    drawRoad();
-
-    update();
-
-    drawCar();
-
-    requestAnimationFrame(animate);
-}
-
-window.onresize = () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-};
