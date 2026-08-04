@@ -128,3 +128,76 @@ function drawEnemies() {
     });
 
 }
+function updatePlayer(){
+
+    const leftLimit = canvas.width/2-ROAD_WIDTH/2;
+    const rightLimit = canvas.width/2+ROAD_WIDTH/2-player.width;
+
+    if(keys["ArrowLeft"] && player.x>leftLimit){
+        player.x-=player.speed;
+    }
+
+    if(keys["ArrowRight"] && player.x<rightLimit){
+        player.x+=player.speed;
+    }
+
+}
+
+function checkCollision(){
+
+    for(let enemy of enemies){
+
+        if(
+            player.x < enemy.x + enemy.width &&
+            player.x + player.width > enemy.x &&
+            player.y < enemy.y + enemy.height &&
+            player.y + player.height > enemy.y
+        ){
+
+            gameRunning=false;
+
+            alert("💥 Game Over!\n\nScore : "+score);
+
+            location.reload();
+
+        }
+
+    }
+
+}
+
+function updateEnemies(){
+
+    enemies.forEach(enemy=>{
+
+        enemy.y+=speed;
+
+    });
+
+}
+
+function gameLoop(){
+
+    if(!gameRunning) return;
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    drawRoad();
+
+    updatePlayer();
+
+    updateEnemies();
+
+    drawEnemies();
+
+    drawPlayer();
+
+    checkCollision();
+
+    score++;
+
+    document.getElementById("score").innerText=score;
+
+    requestAnimationFrame(gameLoop);
+
+}
