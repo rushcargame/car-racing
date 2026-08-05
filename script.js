@@ -3,6 +3,8 @@ const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+const playerImg = new Image();
+playerImg.src = "assets/player.png";
 
 const ROAD_WIDTH = 320;
 const LANE_WIDTH = ROAD_WIDTH / 3;
@@ -59,12 +61,15 @@ function drawRoad() {
 }
 
 function drawPlayer() {
-    ctx.fillStyle = "#ff2d2d";
-    ctx.fillRect(player.x, player.y, player.width, player.height);
 
-    ctx.fillStyle = "#111";
-    ctx.fillRect(player.x + 8, player.y + 8, 12, 18);
-    ctx.fillRect(player.x + 30, player.y + 8, 12, 18);
+    ctx.drawImage(
+        playerImg,
+        player.x,
+        player.y,
+        player.width,
+        player.height
+    );
+
 }
 function createEnemy() {
 
