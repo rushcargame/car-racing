@@ -178,7 +178,9 @@ function gameLoop(){
     checkCollision();
 
     document.getElementById("score").innerText = score;
+score++;
 
+speed = 6 + Math.floor(score / 300);
     requestAnimationFrame(gameLoop);
 
 }
