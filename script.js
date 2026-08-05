@@ -192,3 +192,20 @@ window.addEventListener("resize",()=>{
     player.y = canvas.height - 130;
 
 });
+function drawCar(x,y,color){
+
+    ctx.fillStyle=color;
+    ctx.fillRect(x,y,50,90);
+
+    ctx.fillStyle="#87CEEB";
+    ctx.fillRect(x+8,y+10,34,20);
+
+    ctx.fillStyle="black";
+
+    ctx.fillRect(x-3,y+10,6,18);
+    ctx.fillRect(x+47,y+10,6,18);
+
+    ctx.fillRect(x-3,y+60,6,18);
+    ctx.fillRect(x+47,y+60,6,18);
+
+}
